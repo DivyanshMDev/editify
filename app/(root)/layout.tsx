@@ -1,4 +1,4 @@
-import { Sidebar } from 'lucide-react'
+import Sidebar from '@/components/shared/Sidebar'
 import React from 'react'
 
 const Layout = ({children}:{children:React.ReactNode}) => {

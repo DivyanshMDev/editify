@@ -86,12 +86,18 @@ export async function POST(req: Request) {
     }
 
     case "user.deleted": {
-      const { id } = evt.data.id??"";
-      const deletedUser = await deleteUser(id);
-
-      return NextResponse.json({ message: "User deleted", user: deletedUser });
-    }
-
+        const data = evt.data;  // Access evt.data safely
+      
+        if (typeof data === "object" && data !== null && "id" in data) {
+          const id = data.id ?? "";  // Ensure id is safely accessed and provide a fallback
+          const deletedUser = await deleteUser(id);
+      
+          return NextResponse.json({ message: "User deleted", user: deletedUser });
+        } else {
+          throw new Error("Invalid data structure or missing 'id'");
+        }
+      }
+      
     default:
       return NextResponse.json({ message: "Unhandled event type" }, { status: 400 });
   }
